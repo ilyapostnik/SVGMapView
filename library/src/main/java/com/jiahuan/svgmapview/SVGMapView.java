@@ -3,6 +3,7 @@ package com.jiahuan.svgmapview;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Picture;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -13,6 +14,7 @@ import android.widget.ImageView.ScaleType;
 import com.jiahuan.svgmapview.core.componet.MapMainView;
 import com.jiahuan.svgmapview.overlay.SVGMapBaseOverlay;
 
+import java.io.InputStream;
 import java.util.List;
 
 
@@ -68,6 +70,11 @@ public class SVGMapView extends FrameLayout
     public void loadMap(String svgString)
     {
         this.mapMainView.loadMap(svgString);
+    }
+
+    public void loadMap(Picture picture)
+    {
+        this.mapMainView.loadMap(picture);
     }
 
     public void setBrandBitmap(Bitmap bitmap) {

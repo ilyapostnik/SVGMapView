@@ -21,6 +21,7 @@ import com.jiahuan.svgmapview.core.helper.RectHelper;
 import com.jiahuan.svgmapview.core.helper.map.SVGBuilder;
 import com.jiahuan.svgmapview.overlay.SVGMapBaseOverlay;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -482,6 +483,42 @@ public class MapMainView extends SurfaceView implements Callback
             {
                 super.run();
                 Picture picture = new SVGBuilder().readFromString(svgString).build().getPicture();
+                if (picture != null)
+                {
+                    if (MapMainView.this.mapOverlay == null)
+                    {
+                        MapMainView.this.mapOverlay = new MapOverlay(MapMainView.this);
+                        MapMainView.this.getOverLays().add(mapOverlay);
+                    }
+                    MapMainView.this.mapOverlay.setData(picture);
+                    Log.i(TAG, "mapLoadFinished");
+                    if (mapViewListener != null)
+                    {
+                        mapViewListener.onMapLoadComplete();
+                    }
+                    isMapLoadFinsh = true;
+
+                }
+                else
+                {
+                    if (mapViewListener != null)
+                    {
+                        mapViewListener.onMapLoadError();
+                    }
+                }
+            }
+        }.start();
+    }
+
+    public void loadMap(final Picture picture)
+    {
+        isMapLoadFinsh = false;
+        new Thread()
+        {
+            @Override
+            public void run()
+            {
+                super.run();
                 if (picture != null)
                 {
                     if (MapMainView.this.mapOverlay == null)
