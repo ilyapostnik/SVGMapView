@@ -59,13 +59,28 @@ public class MapOverlay extends SVGMapBaseOverlay
 
     private void calcRatio()
     {
-        float zoom = getInitScale(this.mapMainView.getWidth(), this.mapMainView.getHeight(), floorMap.getWidth(), floorMap.getHeight());
+        float zoom = 1.0f;
+        if (floorMap.getWidth()>floorMap.getHeight()){
+            this.mapMainView.setCurrentRotationDegrees(90, this.mapMainView.getWidth() / 2, this.mapMainView.getHeight() / 2);
+            zoom = getInitScale(this.mapMainView.getWidth(), this.mapMainView.getHeight() , floorMap.getHeight(), floorMap.getWidth());
+        }
+        else
+        {
+            zoom = getInitScale(this.mapMainView.getWidth(), this.mapMainView.getHeight(), floorMap.getWidth(), floorMap.getHeight());
+        }
+
         Log.i(TAG, zoom + " = zoom");
         this.mapMainView.setMinZoomValue(zoom);
         this.mapMainView.setCurrentZoomValue(zoom, 0, 0);
-        float deltaHeight = this.mapMainView.getHeight() - zoom * floorMap.getHeight();
-        float deltaWidth = this.mapMainView.getWidth() - zoom * floorMap.getWidth();
-        this.mapMainView.translateBy(deltaWidth / 2, deltaHeight / 2);
+        if (floorMap.getWidth()>floorMap.getHeight()) {
+            float deltaHeight = this.mapMainView.getHeight() - zoom * floorMap.getWidth();
+            float deltaWidth = this.mapMainView.getWidth() - zoom * floorMap.getHeight();
+            this.mapMainView.translateBy(deltaWidth / 2, deltaHeight / 2);
+        }else{
+            float deltaHeight = this.mapMainView.getHeight() - zoom * floorMap.getHeight();
+            float deltaWidth = this.mapMainView.getWidth() - zoom * floorMap.getWidth();
+            this.mapMainView.translateBy(deltaWidth / 2, deltaHeight / 2);
+        }
         this.mapMainView.refresh();
         hasMeasured = true;
     }

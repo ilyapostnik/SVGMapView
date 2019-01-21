@@ -496,6 +496,7 @@ public class MapMainView extends SurfaceView implements Callback
                         mapViewListener.onMapLoadComplete();
                     }
                     isMapLoadFinsh = true;
+
                 }
                 else
                 {

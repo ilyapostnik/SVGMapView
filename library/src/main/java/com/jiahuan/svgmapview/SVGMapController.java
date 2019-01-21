@@ -146,5 +146,4 @@ public class SVGMapController
     {
         this.mapMainView.sparkAtPoint(point, radius, color, repeatTimes);
     }
-
 }
